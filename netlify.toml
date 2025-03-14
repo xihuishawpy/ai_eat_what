@@ -1,6 +1,7 @@
 [build]
   publish = "."
   command = ""
+  functions = "netlify/functions"
 
 # 重定向和自定义头信息
 [[headers]]
@@ -8,7 +9,7 @@
   [headers.values]
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
-    Content-Security-Policy = "default-src 'self' https://open.bigmodel.cn; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data:; font-src 'self' https://cdn.jsdelivr.net;"
+    Content-Security-Policy = "default-src 'self' https://open.bigmodel.cn https://*.netlify.app; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https://cdn.jsdelivr.net; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://open.bigmodel.cn https://*.netlify.app;"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
 
@@ -16,4 +17,10 @@
 [[redirects]]
   from = "/*"
   to = "/index.html"
+  status = 200
+  
+# 确保 API 路由正常工作
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
   status = 200 

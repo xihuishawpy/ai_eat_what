@@ -16,14 +16,38 @@ const ingredientsRecommendationResult = document.getElementById('ingredientsReco
 let ZHIPUAI_API_KEY = localStorage.getItem('ZHIPUAI_API_KEY');
 const API_URL = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
 
+// 从 Netlify 函数获取 API 密钥
+async function getApiKeyFromNetlify() {
+    try {
+        const response = await fetch('/api/getApiKey');
+        if (!response.ok) {
+            throw new Error('获取 API 密钥失败');
+        }
+        const data = await response.json();
+        return data.apiKey;
+    } catch (error) {
+        console.error('从 Netlify 获取 API 密钥失败:', error);
+        return null;
+    }
+}
+
 // 初始化页面
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     // 检查是否已设置 API 密钥
     if (!ZHIPUAI_API_KEY) {
-        const apiKey = prompt('请输入你的智谱 AI API 密钥：');
-        if (apiKey) {
-            ZHIPUAI_API_KEY = apiKey;
-            localStorage.setItem('ZHIPUAI_API_KEY', apiKey);
+        // 尝试从 Netlify 函数获取 API 密钥
+        const netlifyApiKey = await getApiKeyFromNetlify();
+        if (netlifyApiKey) {
+            ZHIPUAI_API_KEY = netlifyApiKey;
+            localStorage.setItem('ZHIPUAI_API_KEY', netlifyApiKey);
+            console.log('已从 Netlify 环境变量获取 API 密钥');
+        } else {
+            // 如果从 Netlify 获取失败，则提示用户输入
+            const apiKey = prompt('请输入你的智谱 AI API 密钥：');
+            if (apiKey) {
+                ZHIPUAI_API_KEY = apiKey;
+                localStorage.setItem('ZHIPUAI_API_KEY', apiKey);
+            }
         }
     }
     
