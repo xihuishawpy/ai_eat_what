@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="今天吃什么菜 - 一个帮助你决定今天吃什么的智能菜谱应用">
+    <meta name="keywords" content="菜谱,食谱,AI推荐,智能菜谱,今天吃什么">
+    <meta name="author" content="今天吃什么菜">
+    <title>今天吃什么菜 🍽️</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css" rel="stylesheet">
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f37d.png" type="image/png">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>今天吃什么菜 🍽️</h1>
+            <p class="subtitle">让 AI 帮你决定今天吃什么</p>
+            <div class="datetime-display">
+                <div class="date">2024年3月14日</div>
+                <div class="time">23:45:30</div>
+                <div class="weekday">星期四</div>
+            </div>
+        </header>
+
+        <main>
+            <section class="add-recipe">
+                <h2>添加新菜品 🌟</h2>
+                <form id="recipeForm">
+                    <div class="form-group">
+                        <label for="dishName">菜品名称</label>
+                        <input type="text" id="dishName" required placeholder="例如：红烧肉">
+                    </div>
+                    <div class="form-group">
+                        <label for="ingredients">食材</label>
+                        <textarea id="ingredients" required placeholder="列出所需食材，每行一个"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="instructions">做法</label>
+                        <textarea id="instructions" required placeholder="详细描述烹饪步骤"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">保存菜品 💾</button>
+                </form>
+            </section>
+
+            <section class="ai-recommendation">
+                <h2>AI 推荐菜品 🤖</h2>
+                <div class="recommendation-form">
+                    <div class="form-group">
+                        <label for="recommendCategory">选择菜品类别</label>
+                        <select id="recommendCategory" required>
+                            <option value="">请选择类别</option>
+                            <option value="vegetable">蔬菜</option>
+                            <option value="meat">肉类</option>
+                            <option value="seafood">海鲜</option>
+                            <option value="soup">汤类</option>
+                        </select>
+                    </div>
+                    <button id="getRecommendation" class="submit-btn">获取推荐 🎲</button>
+                </div>
+                <div id="recommendationResult" class="recommendation-result"></div>
+            </section>
+
+            <section class="ai-ingredients-recommendation">
+                <h2>食材智能推荐 🧪</h2>
+                <p class="section-desc">输入你家有的食材，AI将为你推荐3种可行的做法</p>
+                <div class="ingredients-form">
+                    <div class="form-group">
+                        <label for="userIngredients">你有哪些食材？</label>
+                        <textarea id="userIngredients" required placeholder="例如：鸡蛋、西红柿、洋葱..."></textarea>
+                    </div>
+                    <button id="getIngredientsRecommendation" class="submit-btn">获取做法推荐 👨‍🍳</button>
+                </div>
+                <div id="ingredientsRecommendationResult" class="ingredients-recommendation-result"></div>
+            </section>
+
+            <section class="recipe-list">
+                <h2>我的菜品集 📖</h2>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-category="all">全部</button>
+                    <button class="filter-btn" data-category="vegetable">蔬菜</button>
+                    <button class="filter-btn" data-category="meat">肉类</button>
+                    <button class="filter-btn" data-category="seafood">海鲜</button>
+                    <button class="filter-btn" data-category="soup">汤类</button>
+                </div>
+                <div id="recipeContainer" class="recipe-grid"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 编辑菜品的模态框 -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h2>编辑菜品 ✏️</h2>
+            <form id="editForm">
+                <input type="hidden" id="editId">
+                <div class="form-group">
+                    <label for="editDishName">菜品名称</label>
+                    <input type="text" id="editDishName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editIngredients">食材</label>
+                    <textarea id="editIngredients" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editInstructions">做法</label>
+                    <textarea id="editInstructions" required></textarea>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="submit-btn">保存修改 💾</button>
+                    <button type="button" class="cancel-btn" onclick="closeModal()">取消 ❌</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
